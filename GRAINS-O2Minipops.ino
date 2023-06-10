@@ -881,6 +881,11 @@ if (!(digitalReadFast(10))) {
 
       uint16_t value=((ADCL+(ADCH<<8))>>3)+1;
       if (MUX==4) tempo=(value<<4)+1250;  //17633-1250
+
+      // FIXME
+      // GRAINS input are A0 to A4
+      // But using A0 to A3 leads to strange results
+      // So only A4 is usable right now
       /*if (MUX==5) patselect=(value-1)>>3;
       if (MUX==5) patlength=pgm_read_byte_near(patlen + patselect);*/
       
