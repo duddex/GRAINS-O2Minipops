@@ -1,4 +1,5 @@
-// O2 Minipops rhythm box (c) DSP Synthesizers 2016
+// Adaption for the AE Modular GRAINS module of O2 Minipops rhythm box
+// (c) DSP Synthesizers 2016
 // Free for non commercial use
 
 // http://janostman.wordpress.com
