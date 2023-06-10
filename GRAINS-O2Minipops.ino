@@ -106,7 +106,7 @@ B00000100,
 B01000001,
 B00000000,
 
-B01000001,      //Reegae16
+B01000001,      //Reggae16
 B00000100,
 B10000000,
 B00000000,
@@ -862,7 +862,7 @@ if (!(digitalReadFast(10))) {
   digitalWriteFast(12,LOW); //Reset out Lo
   PORTC=0;
   stepcnt=0;
-  tempocnt=1
+  tempocnt=1;
 }
 //------------------------------------------------------------------------
 
@@ -880,7 +880,7 @@ if (!(digitalReadFast(10))) {
       if (MUX==8) MUX=4;
       ADMUX = 64 | MUX; //Select MUX
       sbi(ADCSRA, ADSC); //start next conversation
-    };
+    }
 //---------------------------------------------------------------
     
   }
