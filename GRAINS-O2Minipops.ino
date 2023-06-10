@@ -663,6 +663,7 @@ void setup() {
     pinMode(10,INPUT_PULLUP); //RUN - Stop input
     pinMode(12,OUTPUT);       //Reset output
     pinMode(13,OUTPUT);       //Clock output
+    pinMode(8,OUTPUT);       //Clock output
 
     pinMode(14,OUTPUT);       //SEQ cnt output
     pinMode(15,OUTPUT); 
@@ -757,7 +758,7 @@ void loop() {
   uint16_t tempocnt=1;
   uint8_t MUX=4;
 
-  uint8_t patselect=13;
+  uint8_t patselect=1;
   uint8_t patlength=pgm_read_byte_near(patlen + patselect);
   
   while(1) { 
@@ -821,6 +822,12 @@ if (digitalReadFast(10)) {
     if (stepcnt>patlength) stepcnt=0;
     if (stepcnt==0) digitalWriteFast(12,HIGH); //Reset out Hi
     if (stepcnt!=0) digitalWriteFast(12,LOW); //Reset out Lo
+    if (stepcnt % 2 != 0) { // clock output on D
+      digitalWriteFast(8, HIGH);
+    } else {
+      digitalWriteFast(8, LOW);
+    }
+
     if (trig & 1) {
       samplepntQU=0;
       samplecntQU=7712;
@@ -860,6 +867,7 @@ if (digitalReadFast(10)) {
 if (!(digitalReadFast(10))) {
   digitalWriteFast(13,LOW); //Clock out Lo
   digitalWriteFast(12,LOW); //Reset out Lo
+  digitalWriteFast(8,LOW); //D out Lo
   PORTC=0;
   stepcnt=0;
   tempocnt=1;
@@ -872,12 +880,12 @@ if (!(digitalReadFast(10))) {
     if (!(ADCSRA & 64)) {
 
       uint16_t value=((ADCL+(ADCH<<8))>>3)+1;
-      if (MUX==5) tempo=(value<<4)+1250;  //17633-1250
-      if (MUX==4) patselect=(value-1)>>3;
-      if (MUX==4) patlength=pgm_read_byte_near(patlen + patselect);
+      if (MUX==4) tempo=(value<<4)+1250;  //17633-1250
+      /*if (MUX==5) patselect=(value-1)>>3;
+      if (MUX==5) patlength=pgm_read_byte_near(patlen + patselect);*/
       
       MUX++;
-      if (MUX==8) MUX=4;
+      if (MUX==6) MUX=4;
       ADMUX = 64 | MUX; //Select MUX
       sbi(ADCSRA, ADSC); //start next conversation
     }
